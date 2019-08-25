@@ -39,7 +39,7 @@ oranges: integer array, distances at which each orange falls from the tree.
         for (int i = 0;i<m;i++){
             apple[i] = input.nextInt();
         //logic:  if(a-2)>6 && (a-2)<12 {countApple++;}
-            if((a-apple[i])>=s && (a-apple[i])<=t){
+            if((a+apple[i])>=s && (a+apple[i])<=t){
                 countApple++;
             }
 
@@ -50,7 +50,7 @@ oranges: integer array, distances at which each orange falls from the tree.
             orange[j] = input.nextInt();
 
         //logic: if(b+5)>6 && (b-6)<12 {countOrange++;}
-            if((b-orange[j])>=s && (b-orange[j])<=t){
+            if((b+orange[j])>=s && (b+orange[j])<=t){
                 countOrange++;
             }
         }
