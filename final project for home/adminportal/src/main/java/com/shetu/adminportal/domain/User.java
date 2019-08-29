@@ -1,7 +1,6 @@
 package com.shetu.adminportal.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import com.shetu.adminportal.domain.security.Authority;
 import com.shetu.adminportal.domain.security.UserRole;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,6 +37,16 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
+
+    ///Object Relation: UserShipping
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    private List<UserShipping> userShippingList;
+
+    ///Object Relation: UserPayment
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    private List<UserPayment> userPaymentList;
+    ///Object Relation: UserBilling
+
     //constructor
 
     public User() {
@@ -152,5 +162,22 @@ public class User implements UserDetails {
 
     public void setUserRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
+    }
+
+
+    public List<UserShipping> getUserShippingList() {
+        return userShippingList;
+    }
+
+    public void setUserShippingList(List<UserShipping> userShippingList) {
+        this.userShippingList = userShippingList;
+    }
+
+    public List<UserPayment> getUserPaymentList() {
+        return userPaymentList;
+    }
+
+    public void setUserPaymentList(List<UserPayment> userPaymentList) {
+        this.userPaymentList = userPaymentList;
     }
 }

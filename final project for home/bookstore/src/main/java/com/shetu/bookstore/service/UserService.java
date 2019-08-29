@@ -3,6 +3,7 @@ package com.shetu.bookstore.service;
 import com.shetu.bookstore.domain.User;
 import com.shetu.bookstore.domain.UserBilling;
 import com.shetu.bookstore.domain.UserPayment;
+import com.shetu.bookstore.domain.UserShipping;
 import com.shetu.bookstore.domain.security.PasswordResetToken;
 import com.shetu.bookstore.domain.security.UserRole;
 
@@ -30,5 +31,11 @@ public interface UserService {
 
     //setDefaultPayment
     void setUserDefaultPayment(Long userPaymentId, User user);
+
+    //update User service
+    void updateUserShipping(UserShipping userShipping, User user);
+
+    //default user service
+    void setUserDefaultShipping(Long userShippingId,User user);
 
 }

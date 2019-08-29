@@ -1,6 +1,5 @@
 package com.shetu.adminportal.domain.security;
 
-
 import com.shetu.adminportal.domain.User;
 
 import javax.persistence.*;
@@ -16,7 +15,7 @@ public class PasswordResetToken {
 
     //Fields
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     //token
     private String token;

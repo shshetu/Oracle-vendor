@@ -1,4 +1,4 @@
-package com.shetu.bookstore.domain;
+package com.shetu.adminportal.domain;
 
 import javax.persistence.*;
 
