@@ -4,7 +4,7 @@ import javax.persistence.*;
 @Entity
 public class UserPayment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
     private String cardName;

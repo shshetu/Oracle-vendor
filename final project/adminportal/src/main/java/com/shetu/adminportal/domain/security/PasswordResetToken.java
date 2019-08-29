@@ -1,6 +1,5 @@
 package com.shetu.adminportal.domain.security;
 
-
 import com.shetu.adminportal.domain.User;
 
 import javax.persistence.*;

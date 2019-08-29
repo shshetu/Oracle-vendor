@@ -1,19 +1,19 @@
 package com.shetu.bookstore.service.impl;
 
-import com.shetu.bookstore.domain.User;
-import com.shetu.bookstore.domain.UserBilling;
-import com.shetu.bookstore.domain.UserPayment;
+import com.shetu.bookstore.domain.*;
 import com.shetu.bookstore.domain.security.PasswordResetToken;
 import com.shetu.bookstore.domain.security.UserRole;
-import com.shetu.bookstore.repository.PasswordResetTokenRepository;
-import com.shetu.bookstore.repository.RoleRepository;
-import com.shetu.bookstore.repository.UserRepository;
+import com.shetu.bookstore.repository.*;
 import com.shetu.bookstore.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -29,6 +29,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
 
+    @Autowired
+    private UserPaymentRepository userPaymentRepository;
+
+    @Autowired
+    UserShippingRepository userShippingRepository;
     @Override
     public PasswordResetToken getPasswordResetToken(final String token) {
         return passwordResetTokenRepository.findByToken(token);
@@ -51,8 +56,20 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-        //Lot of work to create a User
+
     @Override
+    public User findById(Long id) {
+        User user = new User();
+        Optional<User> tempUser = userRepository.findById(id);
+        if(tempUser.isPresent()){
+            user = tempUser.get();
+        }
+        return user;
+    }
+
+    //Lot of work to create a User
+    @Override
+    @Transactional
     public User createUser(User user, Set<UserRole> userRoles) throws Exception {
         //find the username at first
         //then add all the informations
@@ -67,6 +84,13 @@ public class UserServiceImpl implements UserService {
             }
             //add the userroles to the user
             user.getUserRoles().addAll(userRoles);
+
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.setUser(user);
+            user.setShoppingCart(shoppingCart);
+
+            user.setUserShippingList(new ArrayList<UserShipping>());
+            user.setUserPaymentList(new ArrayList<UserPayment>());
             //then add all the user and userdetails inforamation to the localUser
             localUser = userRepository.save(user);
         }
@@ -87,5 +111,45 @@ public class UserServiceImpl implements UserService {
         userBilling.setUserPayment(userPayment);
         user.getUserPaymentList().add(userPayment);
         save(user);
+    }
+
+    @Override
+    public void setUserDefaultPayment(Long userPaymentId, User user) {
+        List<UserPayment> userPaymentList = userPaymentRepository.findAll();
+
+        for (UserPayment userPayment: userPaymentList){
+            if(userPayment.getId() == userPaymentId){
+                userPayment.setDefaultPayment(true);
+                userPaymentRepository.save(userPayment);
+            }else{
+                userPayment.setDefaultPayment(false);
+                userPaymentRepository.save(userPayment);
+            }
+        }
+    }
+
+    @Override
+    public void updateUserShipping(UserShipping userShipping, User user) {
+    userShipping.setUser(user);
+    userShipping.setUserShippingDefault(true);
+    user.getUserShippingList().add(userShipping);
+    save(user);
+    }
+
+    @Override
+    public void setUserDefaultShipping(Long userShippingId, User user) {
+
+        List<UserShipping> userShippingList = userShippingRepository.findAll();
+
+        for (UserShipping userShipping: userShippingList){
+            if(userShipping.getId() == userShippingId){
+                userShipping.setUserShippingDefault(true);
+                userShippingRepository.save(userShipping);
+            }else{
+                userShipping.setUserShippingDefault(false);
+                userShippingRepository.save(userShipping);
+            }
+        }
+
     }
 }

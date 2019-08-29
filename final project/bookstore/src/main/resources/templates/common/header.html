@@ -19,8 +19,8 @@
     <!--Data Table content-->
     <link th:href="@{/css/jquery.dataTables.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/dataTables.bootstrap.min.css}" rel="stylesheet"/>
-    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
-
+<!--    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 </head>
 
 <body>
@@ -54,7 +54,7 @@
                     </form>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">SHOPPING CART</a></li>
+                    <li><a th:href="@{/shoppingCart/cart}">SHOPPING CART</a></li>
                     <li><a sec:authorize="isAnonymous()" th:href="@{/login}">MY ACCOUNT</a></li>
                     <li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}">MY ACCOUNT</a></li>
                     <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a></li>
@@ -69,6 +69,9 @@
 <div th:fragment="body-bottom-scripts">
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <script th:src="@{/js/script.js}"></script>
+
     <!--Data table-->
     <script th:src="@{/js/jquery.dataTables.min.js}"></script>
     <script th:src="@{/js/dataTables.bootstrap.min.js}"></script>

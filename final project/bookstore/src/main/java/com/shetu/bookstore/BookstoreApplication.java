@@ -9,21 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.util.HashSet;
 import java.util.Set;
 
-
 @SpringBootApplication
 public class BookstoreApplication implements CommandLineRunner {
-
     @Autowired
     private UserService userService;
     public static void main(String[] args) {
+
         SpringApplication.run(BookstoreApplication.class, args);
     }
-
     @Override
     public void run(String... args) throws Exception {
 
@@ -45,4 +42,5 @@ public class BookstoreApplication implements CommandLineRunner {
         //call the createUser() method to create a user
         userService.createUser(user1,userRoles);
     }
+
 }
