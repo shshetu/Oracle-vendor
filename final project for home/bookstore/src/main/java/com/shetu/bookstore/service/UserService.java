@@ -20,6 +20,7 @@ public interface UserService {
     //findby
     User findByUsername(String username);
     User findByEmail(String email);
+    User findById(Long id);
 
     //create: useing user, and userrole
     User createUser(User user, Set<UserRole> userRoles) throws Exception;
@@ -36,6 +37,6 @@ public interface UserService {
     void updateUserShipping(UserShipping userShipping, User user);
 
     //default user service
-    void setUserDefaultShipping(Long userShippingId,User user);
+    void setUserDefaultShipping(Long userShippingId, User user);
 
 }

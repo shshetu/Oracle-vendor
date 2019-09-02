@@ -2,6 +2,7 @@ package com.shetu.bookstore.controller;
 
 import com.shetu.bookstore.domain.*;
 import com.shetu.bookstore.service.*;
+import com.shetu.bookstore.utility.MailConstructor;
 import com.shetu.bookstore.utility.USConstants;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.tomcat.jni.Local;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -52,6 +55,9 @@ public class CheckoutController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private MailConstructor mailConstructor;
 
     private ShippingAddress shippingAddress = new ShippingAddress();
     private BillingAddress billingAddress = new BillingAddress();
@@ -129,8 +135,8 @@ public class CheckoutController {
         model.addAttribute("shippingAddress", shippingAddress);
         model.addAttribute("payment", payment);
         model.addAttribute("billingAddress", billingAddress);
-        model.addAttribute("cartItemList", cartItemList);
-        model.addAttribute("shoppingCart", user.getShoppingCart());
+        model.addAttribute("cartItemList", cartItemList);  ///**problem
+        model.addAttribute("shoppingCart", user.getShoppingCart()); //**problem
 
         List<String> stateList = USConstants.listOfUSStatesCode;
         Collections.sort(stateList);
@@ -188,36 +194,36 @@ public class CheckoutController {
                 billingAddress.getBillingAddressZipcode().isEmpty()
 
         ) {
-            return "redirect:/checkout?id="+shoppingCart.getId()+"&missingRequiredField=true";
-
-            ///create User
-            User user = userService.findByUsername(principal.getName());
-
-            //Create Order
-            Order order = orderService.createOrder(shoppingCart,shippingAddress,billingAddress,payment,shippingMethod,user);
-            //send mail
-            mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order, Locale.ENGLISH));
-
-            ///clear the shopping cart
-            shoppingCartService.clearShoppingCart(shoppingCart);
-
-            ///date
-            LocalDate today = LocalDate.now();
-            LocalDate estimatedDeliveryDate;
-
-            //logic for sending in date
-            if(shippingMethod.equals("groundShipping")){
-                estimatedDeliveryDate = today.plusDays(5);
-            }else {
-                estimatedDeliveryDate = today.plusDays(3);
-            }
-
-            ///////////////////
-            model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
-            return "orderSubmittedPage";
+            return "redirect:/checkout?id=" + shoppingCart.getId() + "&missingRequiredField=true";
         }
 
+        ///create User
+        User user = userService.findByUsername(principal.getName());
+
+        //Create Order
+        Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user);
+        //send mail
+        mailSender.send(mailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH));
+
+        ///clear the shopping cart
+        shoppingCartService.clearShoppingCart(shoppingCart);
+
+        ///date
+        LocalDate today = LocalDate.now();
+        LocalDate estimatedDeliveryDate;
+
+        //logic for sending in date
+        if (shippingMethod.equals("groundShipping")) {
+            estimatedDeliveryDate = today.plusDays(5);
+        } else {
+            estimatedDeliveryDate = today.plusDays(3);
+        }
+
+        ///////////////////
+        model.addAttribute("estimatedDeliveryDate", estimatedDeliveryDate);
+        return "orderSubmittedPage";
     }
+
 
     /////////////////////////// set Shipping Address
     @RequestMapping("/setShippingAddress")

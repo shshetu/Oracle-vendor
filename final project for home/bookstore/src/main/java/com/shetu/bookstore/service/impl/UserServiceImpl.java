@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -55,7 +56,18 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-        //Lot of work to create a User
+
+    @Override
+    public User findById(Long id) {
+        User user = new User();
+        Optional<User> tempUser = userRepository.findById(id);
+        if(tempUser.isPresent()){
+            user = tempUser.get();
+        }
+        return user;
+    }
+
+    //Lot of work to create a User
     @Override
     @Transactional
     public User createUser(User user, Set<UserRole> userRoles) throws Exception {
