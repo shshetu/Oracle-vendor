@@ -4,10 +4,7 @@ import com.shetu.bookstore.domain.*;
 import com.shetu.bookstore.domain.security.PasswordResetToken;
 import com.shetu.bookstore.domain.security.Role;
 import com.shetu.bookstore.domain.security.UserRole;
-import com.shetu.bookstore.service.BookService;
-import com.shetu.bookstore.service.UserPaymentService;
-import com.shetu.bookstore.service.UserService;
-import com.shetu.bookstore.service.UserShippingService;
+import com.shetu.bookstore.service.*;
 import com.shetu.bookstore.service.impl.UserSecurityService;
 import com.shetu.bookstore.utility.MailConstructor;
 import com.shetu.bookstore.utility.SecurityUtility;
@@ -55,6 +52,12 @@ public class HomeController {
 
     @Autowired
     private UserShippingService userShippingService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private CartItemService cartItemService;
 
     //index
     @RequestMapping("/")
@@ -181,7 +184,7 @@ public class HomeController {
 
         model.addAttribute("userPaymentList", user.getUserPaymentList());
         model.addAttribute("userShippingList", user.getUserShippingList());
-//        model.addAttribute("orderList",user.getOrderList());
+        model.addAttribute("orderList", user.getOrderList());
 
         UserShipping userShipping = new UserShipping();
         model.addAttribute("userShipping", userShipping);
@@ -204,7 +207,7 @@ public class HomeController {
         model.addAttribute("user", user);
         model.addAttribute("userPaymentList", user.getUserPaymentList());
         model.addAttribute("userShippingList", user.getUserShippingList());
-//        model.addAttribute("orderList",user.orderList());
+        model.addAttribute("orderList", user.getOrderList());
         model.addAttribute("listOfCreditCards", true);
         model.addAttribute("classActiveBilling", true);
         model.addAttribute("listOfShippingAddresses", true);
@@ -219,7 +222,7 @@ public class HomeController {
         model.addAttribute("user", user);
         model.addAttribute("userPaymentList", user.getUserPaymentList());
         model.addAttribute("userShippingList", user.getUserShippingList());
-//        model.addAttribute("orderList",user.orderList());
+        model.addAttribute("orderList", user.getOrderList());
 
         model.addAttribute("listOfCreditCards", true);
         model.addAttribute("classActiveShipping", true);
@@ -249,7 +252,7 @@ public class HomeController {
         model.addAttribute("stateList", stateList);
         model.addAttribute("userPaymentList", user.getUserPaymentList());
         model.addAttribute("userShippingList", user.getUserShippingList());
-
+        model.addAttribute("orderList", user.getOrderList());
         return "myProfile";
     }
 
@@ -267,7 +270,7 @@ public class HomeController {
         model.addAttribute("listOfCreditCards", true);
         model.addAttribute("classActiveBilling", true);
         model.addAttribute("listOfShippingAddresses", true);
-
+        model.addAttribute("orderList", user.getOrderList());
         return "myProfile";
 
     }
@@ -286,7 +289,7 @@ public class HomeController {
         model.addAttribute("listOfShippingAddresses", true);
         model.addAttribute("classActiveShipping", true);
         model.addAttribute("listOfCreditCards", true);
-
+        model.addAttribute("orderList",user.getOrderList());
         return "myProfile";
 
     }
@@ -315,6 +318,7 @@ public class HomeController {
 
             model.addAttribute("userPaymentList", user.getUserPaymentList());
             model.addAttribute("userShippingList", user.getUserShippingList());
+            model.addAttribute("orderList", user.getOrderList());
             return "myProfile";
         }
 
@@ -329,7 +333,7 @@ public class HomeController {
         if (user.getId() != userShipping.getUser().getId()) {
             return "badRequestPage";
         } else {
-            model.addAttribute("user",user);
+            model.addAttribute("user", user);
             model.addAttribute("userShipping", userShipping);
 
             List<String> stateList = USConstants.listOfUSStatesCode;
@@ -342,6 +346,7 @@ public class HomeController {
 
             model.addAttribute("userPaymentList", user.getUserPaymentList());
             model.addAttribute("userShippingList", user.getUserShippingList());
+            model.addAttribute("orderList", user.getOrderList());
             return "myProfile";
         }
 
@@ -367,7 +372,7 @@ public class HomeController {
 
             model.addAttribute("userPaymentList", user.getUserPaymentList());
             model.addAttribute("userShippingList", user.getUserShippingList());
-
+            model.addAttribute("orderList", user.getOrderList());
             return "myProfile";
         }
     }
@@ -388,6 +393,7 @@ public class HomeController {
 
             model.addAttribute("userPaymentList", user.getUserPaymentList());
             model.addAttribute("userShippingList", user.getUserShippingList());
+            model.addAttribute("orderList", user.getOrderList());
             return "myProfile";
         }
     }
@@ -407,7 +413,7 @@ public class HomeController {
 
         model.addAttribute("userPaymentList", user.getUserPaymentList());
         model.addAttribute("userShippingList", user.getUserShippingList());
-
+        model.addAttribute("orderList", user.getOrderList());
         return "myProfile";
     }
 
@@ -425,7 +431,7 @@ public class HomeController {
 
         model.addAttribute("userPaymentList", user.getUserPaymentList());
         model.addAttribute("userShippingList", user.getUserShippingList());
-
+        model.addAttribute("orderList", user.getOrderList());
         return "myProfile";
     }
 
@@ -506,40 +512,40 @@ public class HomeController {
     }
 
     //////////////update user info
-    @RequestMapping(value = "/updateUserInfo",method = RequestMethod.POST)
+    @RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
     public String updateUserInfo(
             @ModelAttribute("user") User user,
             @ModelAttribute("newPassword") String newPassword,
             Model model
-    ) throws Exception{
+    ) throws Exception {
         User currentUser = userService.findById(user.getId());
 
-        if(currentUser == null){
+        if (currentUser == null) {
             throw new Exception("User not found");
         }
         ///check email already exists
-        if (userService.findByEmail(user.getEmail())!= null) {
-            if(userService.findByEmail(user.getEmail()).getId() != currentUser.getId()){
-               model.addAttribute("emailExists",true);
-               return "myProfile";
+        if (userService.findByEmail(user.getEmail()) != null) {
+            if (userService.findByEmail(user.getEmail()).getId() != currentUser.getId()) {
+                model.addAttribute("emailExists", true);
+                return "myProfile";
             }
         }
 
         ///check username already exists
-        if (userService.findByUsername(user.getUsername())!= null) {
-            if(userService.findByUsername(user.getUsername()).getId() != currentUser.getId()){
-                model.addAttribute("usernameExists",true);
+        if (userService.findByUsername(user.getUsername()) != null) {
+            if (userService.findByUsername(user.getUsername()).getId() != currentUser.getId()) {
+                model.addAttribute("usernameExists", true);
                 return "myProfile";
             }
         }
         //update Password
-        if(newPassword != null && !newPassword.isEmpty() && !newPassword.equals("")){
+        if (newPassword != null && !newPassword.isEmpty() && !newPassword.equals("")) {
             BCryptPasswordEncoder passwordEncoder = SecurityUtility.passwordEncoder();
             String dbPassword = currentUser.getPassword();
-            if(passwordEncoder.matches(user.getPassword(),dbPassword)){
+            if (passwordEncoder.matches(user.getPassword(), dbPassword)) {
                 currentUser.setPassword(passwordEncoder.encode(newPassword));
-            }else {
-                model.addAttribute("incorrectPassword",true);
+            } else {
+                model.addAttribute("incorrectPassword", true);
                 return "myProfile";
             }
         }
@@ -552,9 +558,12 @@ public class HomeController {
 
         userService.save(currentUser);
 
-        model.addAttribute("updateSuccess",true);
-        model.addAttribute("user",currentUser);
-        model.addAttribute("classActiveEdit",true);
+        model.addAttribute("updateSuccess", true);
+        model.addAttribute("user", currentUser);
+        model.addAttribute("classActiveEdit", true);
+
+        model.addAttribute("listOfShippingAddresses", true);
+        model.addAttribute("listOfCreditCards", true);
 
         UserDetails userDetails = userSecurityService.loadUserByUsername(currentUser.getUsername());
         //use authentication : spring security core
@@ -564,5 +573,42 @@ public class HomeController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return "myProfile";
 
+    }
+
+    ////////////////////order detail
+    @RequestMapping("/orderDetail")
+    public String orderDetail(@RequestParam("id") Long orderId, Model model, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        Order order = orderService.findById(orderId);
+
+        if (order.getUser().getId() != user.getId()) {
+            return "badRequestPage";
+        } else {
+            ///List of item
+            List<CartItem> cartItemList = cartItemService.findByOrder(order);
+            model.addAttribute("cartItemList", cartItemList);
+            model.addAttribute("user", user);
+            model.addAttribute("order", order);
+
+            model.addAttribute("userPaymentList", user.getUserPaymentList());
+            model.addAttribute("userShippingList", user.getUserShippingList());
+            model.addAttribute("orderList", user.getOrderList());
+
+            UserShipping userShipping = new UserShipping();
+            model.addAttribute("userShipping", userShipping);
+
+            List<String> stateList = USConstants.listOfUSStatesCode;
+            Collections.sort(stateList);
+
+            model.addAttribute("stateList", stateList);
+
+            model.addAttribute("listOfShippingAddresses", true);
+            model.addAttribute("classActiveOrders", true);
+            model.addAttribute("listOfCreditCards", true);
+            model.addAttribute("displayOrderDetail", true);
+
+            return "myProfile";
+
+        }
     }
 }

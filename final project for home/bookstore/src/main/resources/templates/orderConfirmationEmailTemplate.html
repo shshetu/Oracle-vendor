@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head >
+<head>
 
 
     <!-- Bootstrap core CSS -->
@@ -12,10 +12,11 @@
     <!-- Custom styles for this template -->
     <link href="/css/style.css" rel="stylesheet"/>
     <style>
-        table{
+        table {
             border-collapse: collapse;
         }
-        table,th,td{
+
+        table, th, td {
             border: 1px solid black;
         }
     </style>
@@ -26,7 +27,7 @@
 <p>Dear <span th:text="${user.firstName}"></span>,</p>
 <br/>
 <p>Thank you for shopping from our book store. We hope you had a good time with our service!</p>
-<p>Your order number is: <strong>#<span  th:text="${order.id}"></span></strong>. Here is your order detail:</p>
+<p>Your order number is: <strong>#<span th:text="${order.id}"></span></strong>. Here is your order detail:</p>
 <h2>Order Detail for purchase #<span th:text="${order.id}"></span></h2>
 <hr/>
 <table>
@@ -52,14 +53,12 @@
             <span th:text="${order.payment.expiryMonth}"></span><br/>
             <span th:text="${order.payment.expiryYear}"></span><br/>
         </td>
-        <span th:text="${order.shippingAddress.shippingAddressName}"></span><br/>
-        <span th:text="${order.shippingAddress.shippingAddressStreet1}+' '+${order.shippingAddress.shippingAddressStreet2}"></span><br/>
-        <span th:text="${order.shippingAddress.shippingAddressCity}"></span><br/>
-        <span th:text="${order.shippingAddress.shippingAddressState}"></span><br/>
-        <span th:text="${order.shippingAddress.shippingAddressZipcode}"></span><br/>
         <td>
-            
-            
+            <span th:text="${order.shippingAddress.shippingAddressName}"></span><br/>
+            <span th:text="${order.shippingAddress.shippingAddressStreet1}+' '+${order.shippingAddress.shippingAddressStreet2}"></span><br/>
+            <span th:text="${order.shippingAddress.shippingAddressCity}"></span><br/>
+            <span th:text="${order.shippingAddress.shippingAddressState}"></span><br/>
+            <span th:text="${order.shippingAddress.shippingAddressZipcode}"></span><br/>
         </td>
     </tr>
 </table>
@@ -77,10 +76,10 @@
 
     <tbody>
     <tr th:each="cartItem: ${cartItemList}">
-    <td> <span data-th-text="${cartItem.book.title}"></span></td>
-    <td class="text-center" data-th-text="${cartItem.book.ourPrice}"> </td>
-    <td class="text-center" data-th-text="${cartItem.qty}"> </td>
-    <td class="text-right" data-th-text="${cartItem.subtotal}"> </td>
+        <td><span data-th-text="${cartItem.book.title}"></span></td>
+        <td class="text-center" data-th-text="${cartItem.book.ourPrice}"></td>
+        <td class="text-center" data-th-text="${cartItem.qty}"></td>
+        <td class="text-right" data-th-text="${cartItem.subtotal}"></td>
     </tr>
 
     <tr>
@@ -94,7 +93,8 @@
         <td class="emptyrow"></td>
         <td class="emptyrow"></td>
         <td class="emptyrow text-center"><strong>Tax</strong></td>
-        <td class="emptyrow text-right" data-th-text="${#numbers.formatDecimal(order.orderTotal*0.05,0,2)}"><strong>Subtotal</strong></td>
+        <td class="emptyrow text-right" data-th-text="${#numbers.formatDecimal(order.orderTotal*0.05,0,2)}"><strong>Subtotal</strong>
+        </td>
     </tr>
 
     <tr>
@@ -102,7 +102,7 @@
         <td class="emptyrow"></td>
         <td class="emptyrow text-center"><strong>Total</strong></td>
         <td th:with="total=${order.orderTotal+order.orderTotal*0.06}"
-        data-th-text="${#numbers.formatDecimal(total,0,2)}"
+            data-th-text="${#numbers.formatDecimal(total,0,2)}"
             class="emptyrow text-right"
         ></td>
     </tr>

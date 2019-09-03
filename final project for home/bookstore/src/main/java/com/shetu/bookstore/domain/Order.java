@@ -12,6 +12,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date orderDate;
+    private Date shippingDate;
     private String shippingMethod;
     private String orderStatus;
     private BigDecimal orderTotal;
@@ -33,10 +34,19 @@ public class Order {
     private Payment payment;
 
     /////////////////Relation with User
+    @ManyToOne
     private User user;
 
     //////////////Generate Getters and Setters
 
+
+    public Date getShippingDate() {
+        return shippingDate;
+    }
+
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
+    }
 
     public Long getId() {
         return id;
@@ -117,4 +127,5 @@ public class Order {
     public void setBillingAddress(BillingAddress billingAddress) {
         this.billingAddress = billingAddress;
     }
+
 }

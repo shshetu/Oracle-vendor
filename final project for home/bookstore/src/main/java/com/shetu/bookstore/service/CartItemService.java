@@ -1,9 +1,6 @@
 package com.shetu.bookstore.service;
 
-import com.shetu.bookstore.domain.Book;
-import com.shetu.bookstore.domain.CartItem;
-import com.shetu.bookstore.domain.ShoppingCart;
-import com.shetu.bookstore.domain.User;
+import com.shetu.bookstore.domain.*;
 
 import java.util.List;
 
@@ -14,5 +11,6 @@ public interface CartItemService {
     CartItem findById(Long id);
     void removeCartItem(CartItem cartItem);
     CartItem save(CartItem cartItem);
+    List<CartItem> findByOrder(Order order);
 
 }

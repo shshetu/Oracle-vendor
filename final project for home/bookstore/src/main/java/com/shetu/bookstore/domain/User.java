@@ -49,8 +49,10 @@ public class User implements UserDetails {
     ///Object Relation: UserPayment
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     private List<UserPayment> userPaymentList;
-    ///Object Relation: UserBilling
 
+    ///Object Relation: Order
+    @OneToMany(mappedBy = "user")
+    private List<Order> orderList;
     //constructor
 
     public User() {
@@ -168,6 +170,13 @@ public class User implements UserDetails {
         this.userRoles = userRoles;
     }
 
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
 
     public List<UserShipping> getUserShippingList() {
         return userShippingList;

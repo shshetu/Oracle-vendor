@@ -30,10 +30,10 @@ public class OrderServiceImpl implements OrderService {
         /////////////////////////
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 
-        for(CartItem cartItem: cartItemList){
-        Book book =cartItem.getBook();
-        cartItem.setOrder(order);
-        book.setIntStockNumber(book.getIntStockNumber() - cartItem.getQty());
+        for (CartItem cartItem : cartItemList) {
+            Book book = cartItem.getBook();
+            cartItem.setOrder(order);
+            book.setIntStockNumber(book.getIntStockNumber() - cartItem.getQty());
         }
 
         order.setCartItemList(cartItemList);
@@ -50,9 +50,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findById(Long id) {
-       Order order = new Order();
+        Order order = new Order();
         Optional<Order> tempOrder = orderRepository.findById(id);
-        if(tempOrder.isPresent()){
+        if (tempOrder.isPresent()) {
             order = tempOrder.get();
         }
         return order;
