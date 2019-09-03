@@ -10,20 +10,21 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.mail.search.SearchTerm;
 import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootApplication
 public class AdminportalApplication implements CommandLineRunner {
-    @Autowired
-    private UserService userService;
+@Autowired
+private UserService userService;
     public static void main(String[] args) {
         SpringApplication.run(AdminportalApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
-        //Create a new user
+    //Create a new user
         User user1 = new User();
         user1.setFirstName("Shetu");
         user1.setLastName("Shahariar");

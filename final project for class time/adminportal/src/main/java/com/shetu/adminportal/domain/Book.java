@@ -1,14 +1,16 @@
 package com.shetu.adminportal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Book {
 //Fields
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String author;
@@ -32,6 +34,11 @@ public class Book {
     //add image to our book
     @Transient
     private MultipartFile bookImage;
+
+    //Relation with  BookToCartItem
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    private List<BookToCartItem> bookToCartItemList;
 
 //getters and setters
 
@@ -169,5 +176,13 @@ public class Book {
 
     public void setBookImage(MultipartFile bookImage) {
         this.bookImage = bookImage;
+    }
+
+    public List<BookToCartItem> getBookToCartItemList() {
+        return bookToCartItemList;
+    }
+
+    public void setBookToCartItemList(List<BookToCartItem> bookToCartItemList) {
+        this.bookToCartItemList = bookToCartItemList;
     }
 }

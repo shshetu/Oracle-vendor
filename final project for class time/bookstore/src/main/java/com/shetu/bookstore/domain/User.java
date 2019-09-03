@@ -17,7 +17,7 @@ public class User implements UserDetails {
     //fields: id,username,password,firstname,lastname,email
     //phone, enabled
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "username")
     private String username;
@@ -33,6 +33,10 @@ public class User implements UserDetails {
     private String phone;
     private boolean enabled = true;
 
+    //Relation wtih shopping cart
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
+    private ShoppingCart shoppingCart;
+
     //Object Relation: UserRole
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
@@ -45,8 +49,10 @@ public class User implements UserDetails {
     ///Object Relation: UserPayment
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     private List<UserPayment> userPaymentList;
-    ///Object Relation: UserBilling
 
+    ///Object Relation: Order
+    @OneToMany(mappedBy = "user")
+    private List<Order> orderList;
     //constructor
 
     public User() {
@@ -164,6 +170,13 @@ public class User implements UserDetails {
         this.userRoles = userRoles;
     }
 
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
 
     public List<UserShipping> getUserShippingList() {
         return userShippingList;
@@ -179,5 +192,13 @@ public class User implements UserDetails {
 
     public void setUserPaymentList(List<UserPayment> userPaymentList) {
         this.userPaymentList = userPaymentList;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 }

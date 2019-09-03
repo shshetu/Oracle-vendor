@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class UserShipping {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String userShippingName;
     private String userShippingStreet1;
@@ -14,6 +14,7 @@ public class UserShipping {
     private String userShippingState;
     private String userShippingCountry;
     private String userShippingZipcode;
+    private boolean userShippingDefault;
 
     //User
     @ManyToOne
@@ -90,5 +91,13 @@ public class UserShipping {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isUserShippingDefault() {
+        return userShippingDefault;
+    }
+
+    public void setUserShippingDefault(boolean userShippingDefault) {
+        this.userShippingDefault = userShippingDefault;
     }
 }
