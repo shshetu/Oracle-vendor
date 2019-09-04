@@ -12,4 +12,5 @@ public interface BookService  {
     List<Book> findAll();
     //find by id
     Book findBookByBookId(Long id);
+    void removeBookById(Long id);
 }

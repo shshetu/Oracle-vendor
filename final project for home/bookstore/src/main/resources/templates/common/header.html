@@ -33,7 +33,7 @@
     <nav class="navbar navbar-default navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Shetu's BOOKSTORE</a>
+                <a class="navbar-brand" th:href="@{/}">Shetu's BOOKSTORE</a>
             </div>
             <div id="navbar">
                 <ul class="nav navbar-nav navbar-left">
@@ -42,8 +42,8 @@
                                             aria-expanded="false">BOOKS <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a th:href="@{/bookshelf}">Browse the bookshelf</a></li>
-                            <li><a href="#">Store hours &#38; Directions</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><a th:href="@{/hours}">Store hours &#38; Directions</a></li>
+                            <li><a th:href="@{/faq}">FAQ</a></li>
 
                         </ul>
                     </li>
@@ -66,6 +66,62 @@
         </div>
         <!--/.container-fluid -->
     </nav>
+</div>
+<div th:fragment="footer">
+    <br/><br/>
+    <footer>
+
+        <div class="row">
+            <div class="col-xs-offset-3 footerleft">
+                <div class="logofooter">
+                    <a th:href="@{/}"><img class="img-responsive" src="/image/logo.png" style="width: 200px;"/></a>
+                </div>
+                <p>Shetu's Independent Book Store<br/>Serving our customers with the best.</p>
+            </div>
+
+            <div class="col-xs-offset-3 paddingtop-bottom">
+                <h6 class="heading7">CONTACT</h6>
+                <ul class="post">
+                    <p><i class="fa fa-map-pin"></i> Rupnagar(R/A),Mirpur<br/>Dhaka-1216, Bangladesh</p>
+                    <p><i class="fa fa-phone"></i> Phone(Bangladesh) : +880 1624967336</p>
+                    <p><i class="fa fa-envelope"></i> E-mail: info@shetubookstore.com</p>
+                </ul>
+            </div>
+
+            <div class="col-xs-offset-3 paddingtop-bottom">
+                <h6 class="heading7">LINKS</h6>
+                <ul class="footer-ul">
+                    <li><a href="#"> Privacy Policy</a></li>
+                    <li><a href="#"> Terms &#38; Conditions</a></li>
+                    <li><a href="#"> Frequently Ask Questions</a></li>
+                </ul>
+            </div>
+
+            <div class="col-xs-offset-3 paddingtop-bottom">
+                <div class="heading7">STORE HOURS</div>
+                <div class="post">
+                    <p>Saturday - Thursday: 9am - 11pm</p>
+                    <p>Friday: 10am - 10pm</p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <div class="copyright">
+        <div class="col-md-6">
+            <p>@2019 - All Rights Reserved</p>
+        </div>
+        <div class="col-md-6">
+            <ul class="bottom_ul">
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Faq's</a></li>
+                <li><a href="#">Contact us</a></li>
+                <li><a href="#">Site Map</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <div th:fragment="body-bottom-scripts">

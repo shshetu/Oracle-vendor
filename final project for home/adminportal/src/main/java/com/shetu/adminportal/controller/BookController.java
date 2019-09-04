@@ -116,7 +116,7 @@ public class BookController {
                 //get the name
                 String name = book.getId() + ".png";
                 ///delete the image
-                Files.delete(Paths.get("src/main/resources/static/image/book/"+name));
+                Files.delete(Paths.get("src/main/resources/static/image/book/" + name));
                 //Buffered output stream: inside new FileOutputStream(new File(location));
                 //we use to write the path of the image
                 ///home/shetu/intellij-wokspace/adminportal/src/main/resources/static/image
@@ -128,7 +128,18 @@ public class BookController {
                 e.printStackTrace();
             }
         }
-    return "redirect:/book/bookInfo?id="+book.getId();
+        return "redirect:/book/bookInfo?id=" + book.getId();
+
+    }
+
+    ////////////////////////////remove book
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public String remove(@ModelAttribute("id") String id, Model model) {
+        bookService.removeBookById(Long.parseLong(id.substring(8)));
+        List<Book> bookList = bookService.findAll();
+        model.addAttribute("bookList", bookList);
+
+        return "redirect:/book/bookList";
 
     }
 

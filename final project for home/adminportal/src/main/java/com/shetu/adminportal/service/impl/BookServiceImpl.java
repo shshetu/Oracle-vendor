@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BookServiceImpl implements BookService {
+                public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
     @Override
@@ -37,5 +37,10 @@ public class BookServiceImpl implements BookService {
         }
         //return the object of the book by assigning it by book entity
         return book;
+    }
+
+    @Override
+    public void removeBookById(Long id) {
+        bookRepository.deleteById(id);
     }
 }

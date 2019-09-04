@@ -611,4 +611,17 @@ public class HomeController {
 
         }
     }
+
+    ////////////////////////// Hours controller
+    @RequestMapping(value = "/hours")
+    public String hours(){
+        return "hours";
+    }
+
+    ////////////////////////////// faq controller
+    @RequestMapping(value = "/faq")
+    public String faq(){
+        return "faq";
+    }
+
 }
