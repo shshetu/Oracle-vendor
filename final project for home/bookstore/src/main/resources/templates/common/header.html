@@ -47,7 +47,7 @@
 
                         </ul>
                     </li>
-                    <form class="navbar-form">
+                    <form class="navbar-form" th:action="@{/searchBook}" method="post">
                         <div class="form-group">
                             <input type="text" name="keyword" class="form-control"
                                    placeholder="Book title"/>
@@ -72,14 +72,15 @@
     <footer>
 
         <div class="row">
-            <div class="col-xs-offset-3 footerleft">
+
+            <div class="col-xs-3 footerleft">
                 <div class="logofooter">
                     <a th:href="@{/}"><img class="img-responsive" src="/image/logo.png" style="width: 200px;"/></a>
                 </div>
                 <p>Shetu's Independent Book Store<br/>Serving our customers with the best.</p>
             </div>
 
-            <div class="col-xs-offset-3 paddingtop-bottom">
+            <div class="col-xs-3 paddingtop-bottom">
                 <h6 class="heading7">CONTACT</h6>
                 <ul class="post">
                     <p><i class="fa fa-map-pin"></i> Rupnagar(R/A),Mirpur<br/>Dhaka-1216, Bangladesh</p>
@@ -88,7 +89,7 @@
                 </ul>
             </div>
 
-            <div class="col-xs-offset-3 paddingtop-bottom">
+            <div class="col-xs-3 paddingtop-bottom">
                 <h6 class="heading7">LINKS</h6>
                 <ul class="footer-ul">
                     <li><a href="#"> Privacy Policy</a></li>
@@ -97,7 +98,7 @@
                 </ul>
             </div>
 
-            <div class="col-xs-offset-3 paddingtop-bottom">
+            <div class="col-xs-3 paddingtop-bottom">
                 <div class="heading7">STORE HOURS</div>
                 <div class="post">
                     <p>Saturday - Thursday: 9am - 11pm</p>

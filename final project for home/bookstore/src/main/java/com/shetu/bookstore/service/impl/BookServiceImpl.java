@@ -42,5 +42,33 @@ private BookRepository bookRepository;
         return tempBook;
     }
 
+    @Override
+    public List<Book> findByCategory(String category) {
+        {
+            List<Book> bookList = bookRepository.findBookByCategory(category);
+            List<Book> activeBookList = new ArrayList<>();
+
+            for (Book book:bookList){
+                if(book.isActive()){
+                    activeBookList.add(book);
+                }
+            }
+            return activeBookList;
+        }
+    }
+
+    @Override
+    public List<Book> blurrySearch(String title) {
+        List<Book> bookList = bookRepository.findByTitleContaining(title);
+        List<Book> activeBookList = new ArrayList<>();
+        for (Book book:bookList){
+            if(book.isActive()){
+                activeBookList.add(book);
+            }
+        }
+        return activeBookList;
+
+    }
+
 
 }
